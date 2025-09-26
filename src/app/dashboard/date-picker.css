@@ -1,0 +1,289 @@
+/* Enhanced Date Picker Styles */
+.date-picker-section {
+  padding: 1.8rem;
+  background: linear-gradient(135deg, #f8fdff 0%, #ffffff 100%);
+  border-radius: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Custom Date Picker */
+.custom-date-picker {
+  position: relative;
+  width: 100%;
+}
+
+.date-display {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fffe 100%);
+  border: 2px solid rgba(40, 167, 69, 0.3);
+  border-radius: 1.2rem;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.date-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(40, 167, 69, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.date-display:hover::before {
+  left: 100%;
+}
+
+.date-display:hover {
+  border-color: rgba(40, 167, 69, 0.7);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(40, 167, 69, 0.25);
+}
+
+.date-display:active {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+}
+
+.date-icon {
+  background: linear-gradient(45deg, #28a745, #20c997);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.date-icon i {
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.date-display:hover .date-icon {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.date-text {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.placeholder-text {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.date-arrow {
+  color: #28a745;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+}
+
+.date-display:hover .date-arrow {
+  transform: rotate(180deg);
+}
+
+.hidden-date-input {
+  position: absolute !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 1px !important;
+  height: 1px !important;
+}
+
+.date-picker-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #28a745, #20c997, #17a2b8);
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+.date-label {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.date-label::before {
+  content: '📅';
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.date-input {
+  position: relative !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fffe 100%) !important;
+  border: 2px solid rgba(40, 167, 69, 0.3) !important;
+  border-radius: 1.2rem !important;
+  padding: 1.1rem 1.3rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #2c3e50 !important;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  width: 100% !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+/* Removed problematic ::before pseudo-element with mask-composite */
+
+.date-input:hover {
+  border-color: rgba(40, 167, 69, 0.7) !important;
+  transform: translateY(-3px) !important;
+  box-shadow:
+    0 12px 35px rgba(40, 167, 69, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+.date-input:focus {
+  outline: none !important;
+  border-color: #28a745 !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f0fff4 100%) !important;
+  box-shadow:
+    0 15px 50px rgba(40, 167, 69, 0.3),
+    0 0 0 0.3rem rgba(40, 167, 69, 0.15) !important;
+  transform: translateY(-3px) !important;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  background-image: none !important;
+  background: linear-gradient(45deg, #28a745, #20c997) !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  padding: 8px !important;
+  margin-left: 12px !important;
+  transition: all 0.3s ease !important;
+  width: 28px !important;
+  height: 28px !important;
+  opacity: 1 !important;
+  filter: invert(1) !important;
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  background: linear-gradient(45deg, #20c997, #17a2b8) !important;
+  transform: scale(1.15) rotate(5deg) !important;
+  box-shadow: 0 6px 16px rgba(40, 167, 69, 0.4) !important;
+}
+
+/* Enhanced Quick Date Buttons */
+.quick-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+.quick-date-btn {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 2px solid transparent;
+  color: #6c757d;
+  border-radius: 1rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-date-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(40, 167, 69, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.quick-date-btn:hover {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border-color: #28a745;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.25);
+}
+
+.quick-date-btn:hover::before {
+  left: 100%;
+}
+
+.quick-date-btn:active {
+  transform: translateY(0);
+}
+
+/* Date Info Cards Enhancement */
+.date-info {
+  background: linear-gradient(135deg, #f8fdff 0%, #e8f5e8 100%);
+  border-radius: 1.2rem;
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.date-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.info-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  color: #495057;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.4rem 0;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  color: #28a745;
+  transform: translateX(5px);
+}
+
+.info-card:last-child {
+  margin-bottom: 0;
+}
+
+.info-card i {
+  color: #28a745;
+  width: 20px;
+  margin-right: 0.6rem;
+  font-size: 1rem;
+}

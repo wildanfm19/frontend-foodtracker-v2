@@ -1,0 +1,115 @@
+<!-- Cool & Simple Add Food Component -->
+<div class="add-food-container">
+  <!-- Success/Error Messages -->
+  <div *ngIf="successMessage" class="alert alert-success success-alert" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>{{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger error-alert" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMessage }}
+  </div>
+
+  <div class="food-card">
+    <!-- Cool Header -->
+    <div class="food-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="bi bi-plus-circle-fill"></i>
+        </div>
+        <h3 class="header-title">Add Your Meal</h3>
+        <p class="header-subtitle">Track what you eat, stay healthy! 🥗</p>
+      </div>
+    </div>
+
+    <div class="food-form">
+      <form (ngSubmit)="addFood()" #foodForm="ngForm" novalidate>
+        <!-- Food Input -->
+        <div class="input-group">
+          <div class="input-wrapper full-width">
+            <i class="bi bi-egg-fried input-icon"></i>
+            <input
+              type="text"
+              id="foodName"
+              class="cool-input full-width-input"
+              placeholder="What did you eat?"
+              [(ngModel)]="foodName"
+              name="foodName"
+              required
+              maxlength="50"
+              [disabled]="isLoading" />
+          </div>
+          <div *ngIf="foodForm.submitted && !foodName.trim() && !isLoading && !successMessage" class="error-text">
+            Food name is required
+          </div>
+        </div>
+
+        <!-- Description Input -->
+        <div class="input-group">
+          <div class="input-wrapper full-width">
+            <i class="bi bi-chat-dots input-icon"></i>
+            <textarea
+              id="description"
+              class="cool-input cool-textarea full-width-input"
+              placeholder="Tell us more about your meal..."
+              [(ngModel)]="description"
+              name="description"
+              required
+              rows="3"
+              maxlength="200"
+              [disabled]="isLoading"></textarea>
+          </div>
+          <div class="input-footer">
+            <div *ngIf="foodForm.submitted && !description.trim() && !isLoading && !successMessage" class="error-text">
+              Description is required
+            </div>
+          </div>
+          <div class="char-counter-bottom">{{ description.length }}/200</div>
+        </div>
+
+        <!-- Cool Meal Type Selector -->
+        <div class="meal-selector">
+          <div class="selector-header">
+            <p class="selector-label">When did you eat?</p>
+            <span class="auto-selected-badge" *ngIf="mealType">
+              <i class="bi bi-clock me-1"></i>
+              {{ getCurrentTimeString() }} - {{ getMealTypeByValue(mealType).label }}
+            </span>
+          </div>
+          <div class="meal-options">
+            <div class="meal-option" *ngFor="let type of mealTypes">
+              <input
+                type="radio"
+                class="meal-radio"
+                [id]="type.value"
+                [(ngModel)]="mealType"
+                name="mealType"
+                [value]="type.value"
+                [disabled]="isLoading">
+              <label class="meal-label" [for]="type.value" [style.--accent-color]="type.color">
+                <i [class]="type.icon" class="meal-icon"></i>
+                <span class="meal-name">{{ type.label }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cool Submit Button -->
+        <div class="submit-section">
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="!foodName.trim() || !description.trim() || isLoading">
+            <span *ngIf="!isLoading" class="btn-content">
+              <i class="bi bi-plus-lg"></i>
+              Add to {{ getMealTypeByValue(mealType).label }}
+            </span>
+            <span *ngIf="isLoading" class="btn-loading">
+              <i class="bi bi-arrow-clockwise spin"></i>
+              Adding...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,124 @@
+<div class="container-fluid min-vh-100">
+  <div class="row no-gutter h-100">
+    <!-- The image half -->
+    <div class="col-md-6 d-none d-md-flex bg-image"></div>
+
+    <!-- The content half -->
+    <div class="col-md-6 bg-light align-items-center">
+      <div class="login d-flex align-items-center py-5">
+        <!-- FoodTracker Login -->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 col-xl-7 mx-auto">
+              <h3 class="display-4 text-success bold">
+                <strong>Register </strong>
+              </h3>
+              <p class="text-muted mb-4">
+                Track Erlin's meals, calories, and stay healthy every day.
+              </p>
+              <form #registerForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+                <!-- First Name -->
+                <div class="form-group mb-3">
+                  <input
+                    [(ngModel)]="registerRequest.firstName"
+                    name="firstName"
+                    id="inputFirstName"
+                    type="text"
+                    placeholder="First Name"
+                    required
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  />
+
+                  @if (registerForm.submitted && !registerRequest.firstName) {
+                  <div class="text-danger small">First name is required</div>
+                  }
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group mb-3">
+                  <input
+                    [(ngModel)]="registerRequest.lastName"
+                    name="lastName"
+                    id="inputLastName"
+                    type="text"
+                    placeholder="Last Name"
+                    required
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  />
+
+                  @if (registerForm.submitted && !registerRequest.lastName) {
+                  <div class="text-danger small">Last name is required</div>
+                  }
+                </div>
+
+                <!-- Email -->
+                <div class="form-group mb-3">
+                  <input
+                    [(ngModel)]="registerRequest.email"
+                    name="email"
+                    id="inputEmail"
+                    type="email"
+                    placeholder="Email address"
+                    required
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  />
+
+                  @if (registerForm.submitted && !registerRequest.email) {
+                  <div class="text-danger small">Email is required</div>
+                  }
+                </div>
+
+                <!-- Password -->
+                <div class="form-group mb-3">
+                  <input
+                    [(ngModel)]="registerRequest.password"
+                    name="password"
+                    id="inputPassword"
+                    type="password"
+                    placeholder="Password"
+                    required
+                    minlength="6"
+                    class="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
+                  />
+
+                  @if (registerForm.submitted && !registerRequest.password) {
+                  <div class="text-danger small">Password is required</div>
+                  }
+                </div>
+
+                <!-- Submit -->
+                <button
+                  type="submit"
+                  class="btn btn-success btn-block mb-2 rounded-pill shadow-sm"
+                  [disabled]="registerForm.invalid"
+                >
+                  Sign up
+                </button>
+
+                <!-- Extra links -->
+                <div class="text-center mt-3">
+                  <a
+                    (click)="onClickLogin()"
+                    class="small text-muted cursor-pointer"
+                  >
+                    Have an account? Sign in
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- End -->
+      </div>
+    </div>
+    <!-- End -->
+  </div>
+</div>
+
+<style>
+  .bg-image {
+    background-image: url("https://images.unsplash.com/photo-1504674900247-0877df9cc836");
+    background-size: cover;
+    background-position: center;
+  }
+</style>

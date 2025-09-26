@@ -1,0 +1,253 @@
+<!-- Beautiful Dashboard with Simple Header -->
+<div class="dashboard-wrapper">
+  <!-- Beautiful Dashboard Header -->
+  <div class="dashboard-hero">
+    <div class="hero-background"></div>
+    <div class="hero-pattern"></div>
+
+    <div class="container position-relative">
+      <!-- Back Button -->
+      <div class="row">
+        <div class="col-12">
+          <div class="back-button-wrapper pt-4 pb-2">
+            <button class="btn-back" (click)="goToLanding()" type="button">
+              <i class="bi bi-arrow-left me-2"></i>
+              <span>Back to Home</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center py-5">
+        <div class="col-lg-8">
+          <div class="hero-content">
+            <div class="hero-badge mb-3">
+              <i class="bi bi-calendar-check me-2"></i>
+              {{ getCurrentDate() }}
+            </div>
+            <h1 class="hero-title mb-3">
+              Your Food Journey
+            </h1>
+            <p class="hero-subtitle mb-4">
+              Track your nutrition, build healthy habits, and achieve your wellness goals
+            </p>
+            <div class="hero-stats">
+              <div class="enhanced-meal-stat">
+                <div class="meal-icon">
+                  <i class="bi bi-heart-pulse"></i>
+                </div>
+                <div class="meal-info">
+                  <span class="stat-number">{{ getCurrentFoodsLength() }}</span>
+                  <span class="stat-label">{{ getMealStatLabel() }}</span>
+                  <span class="stat-description">{{ getMealStatDescription() }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block">
+          <div class="hero-illustration">
+            <div class="floating-icon floating-1">
+              <i class="bi bi-apple"></i>
+            </div>
+            <div class="floating-icon floating-2">
+              <i class="bi bi-egg-fried"></i>
+            </div>
+            <div class="floating-icon floating-3">
+              <i class="bi bi-cup-hot"></i>
+            </div>
+            <div class="main-icon">
+              <i class="bi bi-heart-pulse"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Content -->
+  <div class="dashboard-content">
+    <div class="container-fluid px-4">
+      <div class="row g-4">
+        <!-- Sidebar with Mode Toggle -->
+        <div class="col-lg-4 col-xl-3">
+          <div class="sidebar-wrapper">
+            <!-- Mode Toggle -->
+            <div class="mode-toggle mb-4">
+              <div class="toggle-buttons">
+                <button
+                  class="toggle-btn"
+                  [class.active]="!viewHistoryMode"
+                  (click)="setMode(false)">
+                  <i class="bi bi-plus-circle me-2"></i>
+                  Add Food
+                </button>
+                <button
+                  class="toggle-btn"
+                  [class.active]="viewHistoryMode"
+                  (click)="setMode(true)">
+                  <i class="bi bi-calendar-date me-2"></i>
+                  View History
+                </button>
+              </div>
+            </div>
+
+            <!-- Add Food Mode -->
+            <div class="add-food-sidebar" *ngIf="!viewHistoryMode">
+              <div class="sidebar-header">
+                <h4 class="sidebar-title">
+                  <i class="bi bi-plus-circle me-2"></i>
+                  What's on Your Plate?
+                </h4>
+                <p class="sidebar-subtitle">
+                  Add a meal & watch your health stats grow
+                </p>
+              </div>
+              <div class="sidebar-content">
+                <app-add-food (foodAdded)="onFoodAdded($event)"></app-add-food>
+              </div>
+            </div>
+
+            <!-- View History Mode -->
+            <div class="history-sidebar" *ngIf="viewHistoryMode">
+              <div class="sidebar-header">
+                <h4 class="sidebar-title">
+                  <i class="bi bi-calendar-date me-2"></i>
+                  Food History
+                </h4>
+                <p class="sidebar-subtitle">
+                  Select a date to see what you ate
+                </p>
+              </div>
+              <div class="sidebar-content">
+                <div class="date-picker-section">
+                  <label class="date-label">Select Date:</label>
+
+                  <!-- Custom Date Display -->
+                  <div class="custom-date-picker">
+                    <div class="date-display" (click)="openDatePicker()">
+                      <div class="date-icon">
+                        <i class="bi bi-calendar-event"></i>
+                      </div>
+                      <div class="date-text">
+                        <span *ngIf="selectedDate; else placeholderDate">
+                          {{ formatDisplayDate(selectedDate) }}
+                        </span>
+                        <ng-template #placeholderDate>
+                          <span class="placeholder-text">Choose a date</span>
+                        </ng-template>
+                      </div>
+                      <div class="date-arrow">
+                        <i class="bi bi-chevron-down"></i>
+                      </div>
+                    </div>
+
+                    <!-- Hidden HTML Date Input -->
+                    <input
+                      #hiddenDateInput
+                      type="date"
+                      class="hidden-date-input"
+                      [(ngModel)]="selectedDate"
+                      (change)="onDateChange()"
+                      [max]="getTodayDate()"
+                      tabindex="-1"
+                      aria-label="Date selector input">
+                  </div>
+
+                  <div class="quick-dates mt-3">
+                    <button class="btn btn-sm quick-date-btn" (click)="selectQuickDate(0)">
+                      Today
+                    </button>
+                    <button class="btn btn-sm quick-date-btn" (click)="selectQuickDate(-1)">
+                      Yesterday
+                    </button>
+                    <button class="btn btn-sm quick-date-btn" (click)="selectQuickDate(-2)">
+                      2 Days Ago
+                    </button>
+                  </div>
+
+                  <div class="date-info mt-3" *ngIf="selectedDate">
+                    <div class="info-card">
+                      <i class="bi bi-calendar-check me-2"></i>
+                      <span>{{ formatSelectedDate() }}</span>
+                    </div>
+                    <div class="info-card">
+                      <i class="bi bi-collection me-2"></i>
+                      <span>{{ getTotalMealsForDate() }} meals found</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food Cards Grid -->
+        <div class="col-lg-8 col-xl-9">
+          <div class="meals-section">
+            <div class="section-header mb-4">
+              <h3 class="section-title">
+                <i class="bi bi-collection me-2" *ngIf="!viewHistoryMode"></i>
+                <i class="bi bi-calendar-date me-2" *ngIf="viewHistoryMode"></i>
+                <span *ngIf="!viewHistoryMode">Today's Feast</span>
+                <span *ngIf="viewHistoryMode">Food History</span>
+              </h3>
+              <p class="section-subtitle">
+                <span *ngIf="!viewHistoryMode">Breakfast, lunch, dinner & everything in between</span>
+                <span *ngIf="viewHistoryMode">Meals from {{ formatSelectedDate() || 'selected date' }}</span>
+              </p>
+            </div>
+
+            <!-- Loading State for History -->
+            <div *ngIf="isLoading && viewHistoryMode" class="history-loading">
+              <div class="loading-content">
+                <div class="spinner-border text-success" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="loading-text mt-3">Loading meals for {{ formatSelectedDate() || 'selected date' }}...</p>
+              </div>
+            </div>
+
+            <div class="meals-grid" *ngIf="!isLoading || !viewHistoryMode">
+              <div class="meal-col" *ngFor="let type of mealTypes; let i = index">
+                <div class="meal-card-container" [style.animation-delay]="(i * 100) + 'ms'">
+                  <app-food-card
+                    [mealType]="type"
+                    [foods]="getFoodsByType(type)"
+                    (deleteFood)="onDeleteFood($event)"
+                    (addMealRequest)="onAddMealRequest()">
+                  </app-food-card>
+                </div>
+              </div>
+            </div>
+
+            <!-- Empty State -->
+            <div *ngIf="getCurrentFoodsLength() === 0" class="empty-dashboard">
+              <div class="empty-illustration">
+                <i class="bi bi-cup-straw display-1"></i>
+              </div>
+              <h4 class="empty-title">
+                <span *ngIf="!viewHistoryMode">Nothing on your plate yet</span>
+                <span *ngIf="viewHistoryMode">No meals found for this date</span>
+              </h4>
+              <p class="empty-subtitle">
+                <span *ngIf="!viewHistoryMode">Add your first meal and let's get cooking!</span>
+                <span *ngIf="viewHistoryMode">Try selecting a different date or add some meals first.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading overlay for delete operations -->
+  <div *ngIf="isDeleting" class="loading-overlay">
+    <div class="loading-spinner">
+      <div class="spinner-icon">
+        <i class="bi bi-arrow-clockwise"></i>
+      </div>
+      <p class="spinner-text">Removing your meal... hang tight</p>
+    </div>
+  </div>
+</div>
