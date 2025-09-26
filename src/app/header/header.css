@@ -188,6 +188,28 @@
   color: rgba(255, 255, 255, 0.7) !important;
 }
 
+/* Sign In Button Styling */
+.signin-btn {
+  background: linear-gradient(45deg, #28a745, #20c997) !important;
+  color: white !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+.signin-btn:hover {
+  background: linear-gradient(45deg, #218838, #1ea085) !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4) !important;
+}
+
+/* Logout Button Styling */
+.logout-btn:hover {
+  background: rgba(220, 53, 69, 0.1) !important;
+  color: #dc3545 !important;
+}
+
 /* Custom cursor for clickable elements */
 .navbar-brand,
 .nav-link {

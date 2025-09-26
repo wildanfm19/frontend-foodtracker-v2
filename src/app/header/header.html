@@ -18,24 +18,32 @@
       <!-- Navigation Links -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <!-- Show these links when user is authenticated -->
+          <li class="nav-item" *ngIf="isAuthenticated">
             <a class="nav-link" (click)="navigateToHome()">
               <i class="bi bi-house-door"></i> Dashboard
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAuthenticated">
             <a class="nav-link" (click)="navigateToProfile()">
               <i class="bi bi-person"></i> Profile
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAuthenticated">
             <a class="nav-link" (click)="navigateToSettings()">
               <i class="bi bi-gear"></i> Settings
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="logout()">
+          <li class="nav-item" *ngIf="isAuthenticated">
+            <a class="nav-link logout-btn" (click)="logout()">
               <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </li>
+
+          <!-- Show sign in button when user is not authenticated -->
+          <li class="nav-item" *ngIf="!isAuthenticated">
+            <a class="nav-link signin-btn" (click)="signIn()">
+              <i class="bi bi-box-arrow-in-right"></i> Sign In
             </a>
           </li>
         </ul>
@@ -52,12 +60,25 @@
             <h1 class="display-3 fw-bold text-white mb-3">{{ title }}</h1>
             <p class="lead text-white-50 mb-4">{{ subtitle }}</p>
             <div class="hero-actions">
-              <button class="btn btn-success btn-lg rounded-pill px-4 me-3" (click)="navigateToHome()">
-                <i class="bi bi-plus-circle me-2"></i>Add Meal
-              </button>
-              <button class="btn btn-outline-light btn-lg rounded-pill px-4" (click)="navigateToProfile()">
-                <i class="bi bi-graph-up me-2"></i>View Progress
-              </button>
+              <!-- Show these buttons when user is authenticated -->
+              <ng-container *ngIf="isAuthenticated">
+                <button class="btn btn-success btn-lg rounded-pill px-4 me-3" (click)="navigateToHome()">
+                  <i class="bi bi-plus-circle me-2"></i>Add Meal
+                </button>
+                <button class="btn btn-outline-light btn-lg rounded-pill px-4" (click)="navigateToProfile()">
+                  <i class="bi bi-graph-up me-2"></i>View Progress
+                </button>
+              </ng-container>
+
+              <!-- Show these buttons when user is not authenticated -->
+              <ng-container *ngIf="!isAuthenticated">
+                <button class="btn btn-success btn-lg rounded-pill px-4 me-3" (click)="signIn()">
+                  <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                </button>
+                <button class="btn btn-outline-light btn-lg rounded-pill px-4" (click)="register()">
+                  <i class="bi bi-person-plus me-2"></i>Get Started
+                </button>
+              </ng-container>
             </div>
           </div>
         </div>

@@ -19,22 +19,44 @@ export class Header {
   private router = inject(Router);
   private authService = inject(AuthService);
 
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
   navigateToHome() {
-    this.router.navigate(['/dashboard']);
+    if (this.isAuthenticated) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   navigateToProfile() {
-    // Profile route belum ada di main.ts, redirect ke dashboard
-    this.router.navigate(['/dashboard']);
+    if (this.isAuthenticated) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   navigateToSettings() {
-    // Settings route belum ada di main.ts, redirect ke dashboard
-    this.router.navigate(['/dashboard']);
+    if (this.isAuthenticated) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   logout() {
     console.log('Logout method called');
     this.authService.logout();
+  }
+
+  signIn() {
+    this.router.navigate(['/login']);
+  }
+
+  register() {
+    this.router.navigate(['/register']);
   }
 }

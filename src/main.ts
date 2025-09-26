@@ -13,18 +13,20 @@ import { authGuard, loginGuard } from './app/auth/auth.guard';
 
 const routes: Routes = [
 
+  //PUBLIC ROUTES - Accessible to everyone
+  {path: '' , redirectTo: 'landing' , pathMatch: 'full'},
+  {path: 'landing' , component : LandingPage},
+
   //AUTH - These routes are accessible when NOT authenticated
   {path: 'login' , component : Login, canActivate: [loginGuard]},
   {path: 'register' , component : Register, canActivate: [loginGuard]},
-  {path: '' , redirectTo: 'login' , pathMatch: 'full'},
 
   //PROTECTED ROUTES - These routes require authentication
-  {path: 'landing' , component : LandingPage, canActivate: [authGuard]},
   {path: 'dashboard' , component :  Dashboard, canActivate: [authGuard]},
   {path: 'add-food' , component : AddFood, canActivate: [authGuard]},
 
-  // Wildcard route - redirect to login if route not found
-  {path: '**', redirectTo: 'login'}
+  // Wildcard route - redirect to landing page if route not found
+  {path: '**', redirectTo: 'landing'}
 
 
 
