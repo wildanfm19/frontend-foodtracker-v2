@@ -6,6 +6,8 @@ import { catchError } from 'rxjs/operators';
 export interface MealRequest {
   food: string;
   description: string;
+  time?: string;  // Optional time field for client-side time
+  date?: string;  // Optional date field for client-side date
 }
 
 export interface MealResponse {

@@ -259,14 +259,8 @@ export class Dashboard implements OnInit, OnDestroy {
       console.log('Using ViewChild reference');
       const input = this.hiddenDateInput.nativeElement;
 
-      // Try showPicker() first (modern browsers)
-      if (input.showPicker) {
-        input.showPicker();
-      } else {
-        // Fallback for older browsers
-        input.focus();
-        input.click();
-      }
+      // Mobile-friendly approach
+      this.triggerMobileDatePicker(input);
       return;
     }
 
@@ -274,15 +268,133 @@ export class Dashboard implements OnInit, OnDestroy {
     const hiddenInput = document.querySelector('.hidden-date-input') as HTMLInputElement;
     if (hiddenInput) {
       console.log('Using document query fallback');
-      if (hiddenInput.showPicker) {
-        hiddenInput.showPicker();
-      } else {
-        hiddenInput.focus();
-        hiddenInput.click();
-      }
+      this.triggerMobileDatePicker(hiddenInput);
     } else {
       console.error('Hidden date input not found');
     }
+  }
+
+  private triggerMobileDatePicker(input: HTMLInputElement): void {
+    // Multiple approaches for maximum compatibility
+
+    // Method 1: Try showPicker() for modern browsers
+    if (input.showPicker && typeof input.showPicker === 'function') {
+      try {
+        input.showPicker();
+        console.log('showPicker() method worked');
+        return;
+      } catch (error) {
+        console.log('showPicker() failed, trying alternatives');
+      }
+    }
+
+    // Method 2: Mobile-friendly approach - create temporary visible input
+    if (this.isMobileDevice()) {
+      this.createMobileDatePicker(input);
+    } else {
+      // Method 3: Desktop fallback
+      this.triggerDesktopDatePicker(input);
+    }
+  }
+
+  private isMobileDevice(): boolean {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+           (navigator.maxTouchPoints !== undefined && navigator.maxTouchPoints > 0);
+  }
+
+  private createMobileDatePicker(originalInput: HTMLInputElement): void {
+    // Create a temporary visible date input for mobile
+    const tempInput = document.createElement('input');
+    tempInput.type = 'date';
+    tempInput.value = originalInput.value;
+    tempInput.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 50px;
+      background: white;
+      border: 2px solid #28a745;
+      border-radius: 10px;
+      font-size: 16px;
+      padding: 10px;
+      z-index: 9999;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    `;
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9998;
+    `;
+
+    // Add to document
+    document.body.appendChild(overlay);
+    document.body.appendChild(tempInput);
+
+    // Handle change
+    tempInput.onchange = () => {
+      originalInput.value = tempInput.value;
+      originalInput.dispatchEvent(new Event('change', { bubbles: true }));
+      this.onDateChange();
+      this.removeMobileDatePicker(tempInput, overlay);
+    };
+
+    // Handle cancel (click overlay)
+    overlay.onclick = () => {
+      this.removeMobileDatePicker(tempInput, overlay);
+    };
+
+    // Focus the input to open native picker
+    setTimeout(() => {
+      tempInput.focus();
+      if (tempInput.showPicker) {
+        tempInput.showPicker();
+      }
+    }, 100);
+  }
+
+  private removeMobileDatePicker(input: HTMLInputElement, overlay: HTMLElement): void {
+    document.body.removeChild(input);
+    document.body.removeChild(overlay);
+  }
+
+  private triggerDesktopDatePicker(input: HTMLInputElement): void {
+    // Focus and trigger events for desktop
+    setTimeout(() => {
+      // Make input temporarily visible and focusable
+      input.style.opacity = '1';
+      input.style.pointerEvents = 'auto';
+      input.style.position = 'absolute';
+      input.style.left = '-9999px';
+      input.style.width = '1px';
+      input.style.height = '1px';
+
+      // Focus and trigger click
+      input.focus();
+
+      // Trigger various events
+      input.dispatchEvent(new Event('focus', { bubbles: true }));
+      input.dispatchEvent(new Event('click', { bubbles: true }));
+      input.dispatchEvent(new Event('mousedown', { bubbles: true }));
+
+      // Hide again after a short delay
+      setTimeout(() => {
+        input.style.opacity = '0';
+        input.style.pointerEvents = 'none';
+        input.style.position = 'absolute';
+        input.style.left = '0';
+        input.style.width = '1px';
+        input.style.height = '1px';
+      }, 100);
+    }, 10);
   }
 
   formatDisplayDate(date: string): string {

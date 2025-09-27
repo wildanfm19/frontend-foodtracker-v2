@@ -483,11 +483,29 @@
   margin-bottom: 2rem;
 }
 
+.section-header-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
 .section-title {
   color: #2c3e50;
   font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin: 0;
+}
+
+.no-meals-badge {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #6c757d;
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
 }
 
 .section-subtitle {
@@ -499,8 +517,9 @@
 /* Meals Grid */
 .meals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+  margin-top: 3rem; /* Adjust to align with add-food sidebar */
 }
 
 .meal-col {
@@ -520,7 +539,10 @@
   border-radius: 1.5rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
   border: 2px dashed #e9ecef;
+  margin-top: 2rem; /* Add spacing from meals grid */
 }
+
+
 
 .empty-illustration {
   margin-bottom: 2rem;
@@ -626,9 +648,17 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1600px) {
+  .meals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+}
+
 @media (max-width: 1200px) {
   .meals-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 
@@ -656,7 +686,8 @@
   }
 
   .meals-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 

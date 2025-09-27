@@ -104,6 +104,39 @@
   pointer-events: none !important;
   width: 1px !important;
   height: 1px !important;
+  left: 0 !important;
+  top: 0 !important;
+  z-index: -1 !important;
+}
+
+/* Mobile specific enhancements */
+@media (max-width: 768px) {
+  .date-display {
+    padding: 1.2rem 1rem;
+    font-size: 1.1rem;
+    /* Ensure touch targets are large enough */
+    min-height: 56px;
+  }
+
+  .date-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Improve touch interactions */
+  .date-display:active {
+    background: linear-gradient(135deg, #f0fff4 0%, #e8f5e8 100%);
+  }
+
+  /* Better visual feedback on mobile */
+  .date-display:hover {
+    transform: none; /* Remove hover transforms on mobile */
+  }
+
+  .date-display:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
 }
 
 .date-picker-section::before {

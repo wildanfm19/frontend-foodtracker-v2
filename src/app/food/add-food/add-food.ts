@@ -50,7 +50,9 @@ export class AddFood implements OnInit {
 
       const mealRequest: MealRequest = {
         food: this.foodName.trim(),
-        description: this.description.trim()
+        description: this.description.trim(),
+        time: this.getCurrentTimeString(), // Include current local time
+        date: this.getCurrentDateString()  // Include current local date
       };
 
       console.log('Adding food:', mealRequest, 'to', this.mealType);
@@ -132,14 +134,25 @@ export class AddFood implements OnInit {
   }
 
   /**
-   * Get current time in HH:MM format for display
+   * Get current time in HH:MM format for display and API
    */
   getCurrentTimeString(): string {
     const now = new Date();
-    return now.toLocaleTimeString('en-US', {
-      hour12: false,
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    // Format as HH:MM for consistency with backend
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
+  /**
+   * Get current date in YYYY-MM-DD format for API
+   */
+  getCurrentDateString(): string {
+    const now = new Date();
+    // Format as YYYY-MM-DD for consistency with backend
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }

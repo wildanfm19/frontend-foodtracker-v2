@@ -125,7 +125,13 @@
 
                   <!-- Custom Date Display -->
                   <div class="custom-date-picker">
-                    <div class="date-display" (click)="openDatePicker()">
+                    <div class="date-display"
+                         (click)="openDatePicker()"
+                         (touchstart)="openDatePicker()"
+                         role="button"
+                         tabindex="0"
+                         (keydown.enter)="openDatePicker()"
+                         (keydown.space)="openDatePicker()">
                       <div class="date-icon">
                         <i class="bi bi-calendar-event"></i>
                       </div>
@@ -186,12 +192,18 @@
         <div class="col-lg-8 col-xl-9">
           <div class="meals-section">
             <div class="section-header mb-4">
-              <h3 class="section-title">
-                <i class="bi bi-collection me-2" *ngIf="!viewHistoryMode"></i>
-                <i class="bi bi-calendar-date me-2" *ngIf="viewHistoryMode"></i>
-                <span *ngIf="!viewHistoryMode">Today's Feast</span>
-                <span *ngIf="viewHistoryMode">Food History</span>
-              </h3>
+              <div class="section-header-wrapper">
+                <h3 class="section-title">
+                  <i class="bi bi-collection me-2" *ngIf="!viewHistoryMode"></i>
+                  <i class="bi bi-calendar-date me-2" *ngIf="viewHistoryMode"></i>
+                  <span *ngIf="!viewHistoryMode">Today's Feast</span>
+                  <span *ngIf="viewHistoryMode">Food History</span>
+                </h3>
+                <div *ngIf="getCurrentFoodsLength() === 0" class="no-meals-badge">
+                  <span *ngIf="!viewHistoryMode">No meals yet</span>
+                  <span *ngIf="viewHistoryMode">No meals found</span>
+                </div>
+              </div>
               <p class="section-subtitle">
                 <span *ngIf="!viewHistoryMode">Breakfast, lunch, dinner & everything in between</span>
                 <span *ngIf="viewHistoryMode">Meals from {{ formatSelectedDate() || 'selected date' }}</span>
@@ -214,6 +226,8 @@
                   <app-food-card
                     [mealType]="type"
                     [foods]="getFoodsByType(type)"
+                    [isHistoryMode]="viewHistoryMode"
+                    [selectedDate]="selectedDate"
                     (deleteFood)="onDeleteFood($event)"
                     (addMealRequest)="onAddMealRequest()">
                   </app-food-card>
@@ -221,20 +235,7 @@
               </div>
             </div>
 
-            <!-- Empty State -->
-            <div *ngIf="getCurrentFoodsLength() === 0" class="empty-dashboard">
-              <div class="empty-illustration">
-                <i class="bi bi-cup-straw display-1"></i>
-              </div>
-              <h4 class="empty-title">
-                <span *ngIf="!viewHistoryMode">Nothing on your plate yet</span>
-                <span *ngIf="viewHistoryMode">No meals found for this date</span>
-              </h4>
-              <p class="empty-subtitle">
-                <span *ngIf="!viewHistoryMode">Add your first meal and let's get cooking!</span>
-                <span *ngIf="viewHistoryMode">Try selecting a different date or add some meals first.</span>
-              </p>
-            </div>
+
           </div>
         </div>
       </div>

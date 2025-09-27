@@ -24,16 +24,25 @@
       <!-- Empty State -->
       <div *ngIf="foods.length === 0" class="empty-state text-center">
         <div class="empty-illustration">
-          <i class="bi bi-bowl empty-icon mb-3"></i>
+          <i class="bi bi-bowl empty-icon mb-3" [class.history-mode]="isHistoryMode"></i>
         </div>
-        <h5 class="empty-title">Ready for {{ mealType.toLowerCase() }}?</h5>
-        <p class="empty-subtitle">Start logging your meals to track your nutrition journey</p>
-        <button class="empty-cta-button" (click)="onAddMeal()">
-          <span class="cta-text">Add your first meal</span>
+        <h5 class="empty-title">{{ getEmptyTitle() }}</h5>
+        <p class="empty-subtitle">{{ getEmptySubtitle() }}</p>
+        <button
+          *ngIf="shouldShowAddButton()"
+          class="empty-cta-button"
+          (click)="onAddMeal()">
+          <span class="cta-text">{{ getEmptyButtonText() }}</span>
           <div class="cta-indicator">
             <i class="bi bi-plus-circle-fill"></i>
           </div>
         </button>
+        <div
+          *ngIf="!shouldShowAddButton()"
+          class="history-message">
+          <i class="bi bi-calendar-x me-2"></i>
+          <span>Nothing was logged for this meal</span>
+        </div>
       </div>
 
       <!-- Food Items -->
@@ -65,12 +74,20 @@
 
             <div class="food-actions">
               <button
+                *ngIf="canDeleteFood(food)"
                 class="btn delete-btn"
                 (click)="onDeleteFood(food)"
                 title="Remove this meal"
                 type="button">
                 <i class="bi bi-trash3"></i>
               </button>
+              <div
+                *ngIf="!canDeleteFood(food)"
+                class="btn delete-btn-disabled"
+                [title]="isFromToday(food) ? 'Delete not allowed' : 'Can only delete meals from today'"
+                type="button">
+                <i class="bi bi-lock"></i>
+              </div>
             </div>
           </div>
         </div>
